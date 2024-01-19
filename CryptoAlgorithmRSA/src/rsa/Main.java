@@ -23,18 +23,18 @@ public class Main {
 		
 		VC_Cipher cipher = new VC_Cipher();
 		
-		String message = "Aboba asdmlkm mlmlasdm sdfskdmwafk";
+		String message = "The message";
 		System.out.println(message);
 		
-		byte[] enc = cipher.encrypt(message.getBytes(), privateKey);
-		enc = cipher.encrypt(enc, publicKey);
+		byte[] enc = cipher.encrypt(message.getBytes(), publicKey);
+		enc = cipher.encrypt(enc, privateKey);
 		System.out.println(new String(enc));
 		
 		VC_ElectronicSignature es = new VC_ElectronicSignature();
 		HashMap<String, BigInteger> messageWithSign = es.signTheMessage(message.getBytes(), privateKey);
 		System.out.println(messageWithSign);
 		//message = "Aboba asdmlkm mlmlasdm sdfskdmwafk abir";
-		System.out.println(es.authenticateSignature(messageWithSign, publicKey, message.getBytes()));
+		System.out.println(es.authenticateSignature(messageWithSign, publicKey));
 		
 //		MessageDigest digest;
 //		try {

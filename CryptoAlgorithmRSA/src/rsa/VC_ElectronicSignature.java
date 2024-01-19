@@ -30,18 +30,18 @@ class VC_ElectronicSignature {
 		return messageWithSign;
 	}
 	
-	public boolean authenticateSignature(HashMap<String, BigInteger> messageWithSign, VC_Key publicKey, byte[] message) {
-		byte[] hashMessage;
-		byte[] hashOfReceivedMessage;
+	public boolean authenticateSignature(HashMap<String, BigInteger> messageWithSign, VC_Key publicKey) {
 		try {
-			MessageDigest digest = MessageDigest.getInstance("SHA-256");
-			hashMessage = digest.digest(message);
 			for (HashMap.Entry<String, BigInteger> entry : messageWithSign.entrySet()) {
-				BigInteger binaryMessage = entry.getValue().modPow(publicKey.getExponent(), publicKey.getModulus());
-				hashOfReceivedMessage = binaryMessage.toByteArray();
-				return Arrays.equals(hashMessage, hashOfReceivedMessage);
+				
+				BigInteger binaryMessage = entry.getValue().modPow(publicKey.getExponent(),
+																	publicKey.getModulus());
+				byte[] hashOfReceivedMessage = binaryMessage.toByteArray();
+				
+				return (entry.getKey().equals(Base64.getEncoder()
+						.encodeToString(hashOfReceivedMessage)));
 			}
-		} catch (NoSuchAlgorithmException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return false;
